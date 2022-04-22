@@ -1,0 +1,18 @@
+// GLOBAL SCSS
+
+@import "./global/reset";
+@import "./global/variables";
+@import "./global/mixins";
+@import "./global/layout";
+@import "./global/fonts";
+@import "./global/global";
+
+// COMPONENT'S SCSS
+
+@import "./components/form";
+@import "./components/header";
+@import "./components/inputs";
+
+// PAGE'S SCSS
+
+@import "./pages/search";

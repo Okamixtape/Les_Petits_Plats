@@ -1,0 +1,19 @@
+{
+  "name": "les_petits_plats",
+  "version": "1.0.0",
+  "description": "Développement d'un algorithme de recherche en JavaScript",
+  "main": "index.js",
+  "author": "Loup Aubour",
+  "license": "ISC",
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Okamixtape/Les_Petits_Plats.git"
+  },
+  "scripts": {
+    "dev": "sass --watch ./assets/css/scss/main.scss:./assets/css/main.css --no-source-map --style compressed"
+  },
+  "dependencies": {
+    "eslint": "^8.13.0",
+    "sass": "^1.50.1"
+  }
+}
