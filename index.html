@@ -2,7 +2,7 @@
 <html>
 
   <head>
-
+    
     <title>Les petits plats</title>
 
     <meta charset="utf-8" />
@@ -12,83 +12,84 @@
   </head>
 
   <body>
+
     <header class="app-header">
+
       <div class="header__wrapper">
+
         <img src="./assets/img/logo.svg" class="header__logo" alt="Les petits plats" />
         <h1 class="header__title">Les petits plats</h1>
+
       </div>
+
     </header>
 
     <main class="app-search">
 
-      <form class="app-form search__form">
+      <form class="app-form search__form" onsubmit="(e) => e.preventDefault()">
 
         <div class="form__row">
           <div class="form__element">
 
             <input type="text" class="input--search" id="q" name="q" placeholder="Rechercher un ingredient, appareil, ustentiles ou une recette" />
             <button class="form__button"><img src="./assets/img/icons/search.svg" alt="Rechercher" /></button>
-            
+
           </div>
         </div>
 
+        <div class="form__row" data-content="tags"></div>
+
         <div class="form__row">
-          
+
           <!-- Filtre Ingredients -->
+
           <div class="form__element datalist" data-component="datalist" data-type="ingredients">
 
             <div class="datalist__wrapper">
 
-              <input type="text" id="ingredients" name="ingredients" placeholder="Ingrédients" />
+              <input type="text" id="ingredients" name="ingredients" placeholder="Ingrédients" autocomplete="off" />
               <div class="datalist__expand" data-action="expand"></div>
 
             </div>
 
             <div class="datalist__list">
-
-              <div class="list__wrapper">
-                <li>Ingrédient 1</li>
-              </div>
-
+              <ul></ul>
             </div>
+
           </div>
 
-          <!-- Filtre appliances -->
-          <div class="form__element datalist" data-component="datalist" data-type="appliances">
+          <!-- Filtre Appliance -->
+
+          <div class="form__element datalist" data-component="datalist" data-type="appliance">
 
             <div class="datalist__wrapper">
 
-              <input type="text" id="appliances" name="appliances" placeholder="Appareils" />
+              <input type="text" id="appliance" name="appliance" placeholder="Appareil" autocomplete="off" />
               <div class="datalist__expand" data-action="expand"></div>
 
             </div>
 
             <div class="datalist__list">
-
-              <div class="list__wrapper">
-                <li>Appareil 1</li>
-              </div>
-
+              <ul></ul>
             </div>
+
           </div>
 
-          <!-- Filtre Ustentils -->
-          <div class="form__element datalist" data-component="datalist" data-type="ustentils">
+          <!-- Filtre Ustensils -->
+
+          <div class="form__element datalist" data-component="datalist" data-type="ustensils">
 
             <div class="datalist__wrapper">
 
-              <input type="text" id="ustentils" name="ustentils" placeholder="Ustentiles" />
+              <input type="text" id="ustensils" name="ustensils" placeholder="Ustensiles" autocomplete="off" />
               <div class="datalist__expand" data-action="expand"></div>
 
             </div>
 
             <div class="datalist__list">
-
-              <div class="list__wrapper">
-                <li>Ustensile 1</li>
-              </div>
-
+              <ul></ul>
             </div>
+
           </div>
         </div>
 
@@ -96,6 +97,7 @@
 
     </main>
 
+    <script src="./assets/scripts/main.js" type="module"></script>
   </body>
 
 </html>
