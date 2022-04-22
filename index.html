@@ -26,9 +26,69 @@
         <div class="form__row">
           <div class="form__element">
 
-            <input type="text" id="q" name="q" placeholder="Rechercher un ingredient, appareil, ustentiles ou une recette" />
+            <input type="text" class="input--search" id="q" name="q" placeholder="Rechercher un ingredient, appareil, ustentiles ou une recette" />
             <button class="form__button"><img src="./assets/img/icons/search.svg" alt="Rechercher" /></button>
             
+          </div>
+        </div>
+
+        <div class="form__row">
+          
+          <!-- Filtre Ingredients -->
+          <div class="form__element datalist" data-component="datalist" data-type="ingredients">
+
+            <div class="datalist__wrapper">
+
+              <input type="text" id="ingredients" name="ingredients" placeholder="Ingrédients" />
+              <div class="datalist__expand" data-action="expand"></div>
+
+            </div>
+
+            <div class="datalist__list">
+
+              <div class="list__wrapper">
+                <li>Ingrédient 1</li>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Filtre appliances -->
+          <div class="form__element datalist" data-component="datalist" data-type="appliances">
+
+            <div class="datalist__wrapper">
+
+              <input type="text" id="appliances" name="appliances" placeholder="Appareils" />
+              <div class="datalist__expand" data-action="expand"></div>
+
+            </div>
+
+            <div class="datalist__list">
+
+              <div class="list__wrapper">
+                <li>Appareil 1</li>
+              </div>
+
+            </div>
+          </div>
+
+          <!-- Filtre Ustentils -->
+          <div class="form__element datalist" data-component="datalist" data-type="ustentils">
+
+            <div class="datalist__wrapper">
+
+              <input type="text" id="ustentils" name="ustentils" placeholder="Ustentiles" />
+              <div class="datalist__expand" data-action="expand"></div>
+
+            </div>
+
+            <div class="datalist__list">
+
+              <div class="list__wrapper">
+                <li>Ustensile 1</li>
+              </div>
+
+            </div>
           </div>
         </div>
 

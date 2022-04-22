@@ -4,8 +4,8 @@
 //                        //
 ////////////////////////////
 
-input {
-  &[type="text"] {
+.input {
+  &--search {
     padding: 23px;
     width: 100%;
 
