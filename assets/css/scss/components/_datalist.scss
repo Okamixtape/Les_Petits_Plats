@@ -62,6 +62,9 @@
     border-bottom-left-radius: 5px;
     transition: ease-in-out 0.2s;
 
+    max-height: 300px;
+    overflow: scroll;
+
     ul {
       padding: 20px;
       list-style: none;

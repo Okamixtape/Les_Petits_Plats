@@ -34,9 +34,11 @@ class Tag {
       tagElement.dataset.name = this.name
       tagElement.dataset.type = this.type
       tagElement.innerHTML =
-        `<div class="tag__wrapper"><b class="tag__name">${this.name}</b>` +
-        `<button class="tag__remove"><img src="./assets/img/icons/close.svg" alt="Supprimer le tag" /></button>` +
-        `</div>`
+        `<div class="tag__wrapper"><b class="tag__name">${this.name}</b>
+          <button class="tag__remove">
+            <img src="./assets/img/icons/close.svg" alt="Supprimer le tag" />
+          </button>
+        </div>`
 
       wrapper.appendChild(tagElement)
 
