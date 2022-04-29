@@ -3,19 +3,19 @@
 import DataList from "../components/Datalist.js"
 import Tag from "../components/Tag.js"
 
-// Importation du tableau des données JSON
+// Importation du tableau des données JSON via le constructor "List"
 
-import recipes from "../../data/recipes.js"
+import List from "../components/List.js"
 
 // Création du controller "Search"
 class Search {
   constructor() {
-    this.recipes = recipes
 
     this.dataLists = []
     this.tags = []
 
     this.init()
+    this.list = new List()
   }
 
   // Initialisation asynchrone (attente de la fonction getDataLists)

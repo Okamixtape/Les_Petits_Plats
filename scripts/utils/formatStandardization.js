@@ -9,3 +9,7 @@ export const sortAlphabetically = (array) => {
   return array.sort()
 }
 
+// 
+export const contentSlice = (value) => {
+  return value.slice(0, 180) + "..."
+}
