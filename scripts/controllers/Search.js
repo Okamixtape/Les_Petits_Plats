@@ -3,9 +3,9 @@
 import DataList from "../components/Datalist.js"
 import Tag from "../components/Tag.js"
 
-// Importation du tableau des données JSON via le constructor "List"
+// Importation du tableau des données JSON via le constructor "recipesList"
 
-import recipesList from "../components/List.js"
+import recipesList from "../components/recipesList.js"
 
 // Création du controller "Search"
 class Search {
@@ -28,6 +28,7 @@ class Search {
   // Fonction principale
   searchBehaviour = () => {
     this.dataListsEvents()
+    this.tagsEvents()
   }
 
   // Récupération des listes de data
@@ -36,7 +37,7 @@ class Search {
       const dataListsElement = document.querySelectorAll('[data-component="datalist"]')
       let dataLists = []
 
-      dataListsElement.forEach((d) => dataLists.push(new DataList(d)))
+      dataListsElement.forEach((dataList) => dataLists.push(new DataList(dataList)))
 
       resolve(dataLists)
     })
@@ -44,33 +45,38 @@ class Search {
 
   // Déclaration des évènements de dataLists
   dataListsEvents = () => {
-    this.dataLists.map((d) => {
-      const listElements = d.element.querySelectorAll("li")
+    this.dataLists.map((dataList) => dataList.element.addEventListener("expand", this.closeExpandedDataLists))
+  }
 
-      d.element.addEventListener("expand", this.closeExpandedDataLists)
+  // Déclaration des évènements de tags
+  tagsEvents = () => {
+    this.dataLists.map((dataList) => {
+      const listElements = dataList.element.querySelectorAll("li")
 
-      listElements.forEach((l) => {
-        l.addEventListener("tag", this.createTag)
-        l.addEventListener("removeTag", this.removeTag)
+      listElements.forEach((list) => {
+        list.addEventListener("tag", this.createTag)
+        list.addEventListener("deleteTag", this.removeTag)
       })
     })
   }
 
   // Fonction permettant de fermer les autres listes quand une est ouverte
   closeExpandedDataLists = (e) => {
-    this.dataLists.map((d) => d.element !== e.target && d.expanded && d.toggleExpand())
+    this.dataLists.map((dataList) => dataList.element !== e.target && dataList.expanded && dataList.toggleExpand())
   }
 
   // Fonction permettant de créer un tag
   createTag = (e) => {
     const tag = new Tag(e.target.textContent, e.tagType, e.target)
 
+    this.list.addTag(tag)
     this.tags.push(tag)
   }
 
   // ou de le supprimer
   removeTag = (e) => {
-    this.tags = this.tags.filter((t) => t.listElement !== e.target)
+    this.tags = this.tags.filter((tag) => tag.listElement !== e.target)
+    this.list.removeTag(e)
   }
 }
 
