@@ -1,13 +1,14 @@
 // Importation des utils JS nécessaires
 
 import { capitalizeFirstLetter, sortAlphabetically } from "../utils/formatStandardization.js"
-import { isInArray } from "../utils/validationStandardization.js"
+import { isPartiallyInArray } from "../utils/validationStandardization.js"
 
 // Importation du tableau des données JSON
 
 import recipes from "../../data/recipes.js"
 
-// Création du component "DataList"
+// Création du component "DataList" qui gère l'affichage des boutons de filtre 
+// des ingrédients, appareils et ustensiles
 class DataList {
   constructor(element) {
     this.element = element
@@ -45,22 +46,25 @@ class DataList {
 
     document.addEventListener("click", this.handleClick)
   }
-
+  
   // Fonction permettant de récupérer les données JSON
   // et de les classer par ordre alphabétique et avec une majuscule
   getData = () => {
     return new Promise((resolve) => {
       let data = []
 
+      // Méthode pour créer un nouveau tableau et classer ses valeurs par ordre alphabétique en remplacant la première lettre par une majuscule
       recipes.map((recipe) => {
         const values = recipe[this.type]
 
+        // Méthode pour déterminer si l'objet passé en argument est un objet Array, 
+        // renvoie true si le paramètre est de type Array ou false dans le cas contraire
         Array.isArray(values)
           ? values.map((value) => {
               this.type === "ingredients" && (value = value.ingredient)
-              !isInArray(data, value) && data.push(capitalizeFirstLetter(value))
+              !isPartiallyInArray(data, value) && data.push(capitalizeFirstLetter(value))
             })
-          : !isInArray(data, values) && data.push(capitalizeFirstLetter(values))
+          : !isPartiallyInArray(data, values) && data.push(capitalizeFirstLetter(values))
       })
 
       resolve(sortAlphabetically(data))
@@ -68,7 +72,7 @@ class DataList {
   }
 
   // Fonction permettant d'afficher les données JSON dans le DOM
-  // Série de item <li></li> dans list <ul></ul>
+  // Série de item <li></li> dans un <ul></ul>
   displayData = () => {
     return new Promise((resolve) => {
       const wrapper = this.element.querySelector("ul")
@@ -82,13 +86,17 @@ class DataList {
   // Fonction permettant d'afficher les données de recherche (à partir de 3 caractères entrés)
   // et de cacher celles hors du scope de recherche
   searchData = (e) => {
+    // On mets toutes les valeurs en minuscules (pour éviter conflits minuscules / majuscules)
     const value = e.target.value.toLowerCase()
     const hiddenElements = this.element.querySelectorAll("li.hidden")
 
+    // Répercution du "remove" de la classe "hidden" pour tous les li déjà masqués
     hiddenElements.forEach((element) => element.classList.remove("hidden"))
 
+    // Si la valeur entrée est inférieur à trois caractères la liste ne se déplie pas
     if (value.length < 3) return this.toggleOpen(false)
 
+    // Vérification que chaque élément du tableau ne comporte par la valeur recherché, dans ce cas ajout de la classe "hidden"
     this.list.forEach((element) => !element.textContent.toLowerCase().includes(value) && element.classList.add("hidden"))
 
     this.element.dispatchEvent(new Event("search"))
@@ -110,7 +118,7 @@ class DataList {
     this.opened = !this.opened
   }
 
-  // Fonction permettant de cacher des li de la liste
+  // Fonction permettant de cacher des li de la liste lors de la recherche
   toggleSearch = () => {
     const hiddenElements = this.element.querySelectorAll("li.hidden")
 
@@ -127,7 +135,7 @@ class DataList {
     this.expanded && this.toggleExpand()
   }
 
-  // Fonction permettant la sélection d'un élément dans la liste
+  // Fonction permettant la sélection d'un élément dans la liste des filtres
   selectListElement = (e) => {
     const event = new Event("tag")
     event["tagType"] = this.type

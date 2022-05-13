@@ -17,7 +17,7 @@ class Tag {
     this.tagBehaviour()
   }
 
-  // Fonction principale 
+  // Fonction principale permettant de retirer le tag à sa sélection dans la datalist
   tagBehaviour = () => {
     const remove = this.element.querySelector("button")
 
@@ -57,7 +57,7 @@ class Tag {
     this.listElement.dispatchEvent(event)
   }
 
-  // Fonction permettant d'indiquer qu'un élément de la liste a été ajouté en tant que tag
+  // Fonction permettant d'indiquer qu'un élément de la liste a été ajouté en tant que tag et d'être masqué
   toggleHide = () => {
     this.listElement.classList.toggle("tagged")
   }

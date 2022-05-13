@@ -5,7 +5,7 @@ import Tag from "../components/Tag.js"
 
 // Importation du tableau des données JSON via le constructor "recipesList"
 
-import recipesList from "../components/recipesList.js"
+import RecipesList from "../components/RecipesList.js"
 
 // Création du controller "Search"
 class Search {
@@ -14,8 +14,9 @@ class Search {
     this.dataLists = []
     this.tags = []
 
+    this.list = new RecipesList()
+
     this.init()
-    this.list = new recipesList()
   }
 
   // Initialisation asynchrone (attente de la fonction getDataLists)
@@ -31,7 +32,17 @@ class Search {
     this.tagsEvents()
   }
 
-  // Récupération des listes de data
+  // Appel de la fonction addEventListener "expand" sur chaque élément du tableau dataList
+  dataListsEvents = () => {
+    this.dataLists.map((dataList) => dataList.element.addEventListener("expand", this.closeExpandedDataLists))
+  }
+
+  // Méthode pour fermer les autres listes quand une est ouverte
+  closeExpandedDataLists = (e) => {
+    this.dataLists.map((dataList) => dataList.element !== e.target && dataList.expanded && dataList.toggleExpand())
+  }
+
+  // Récupération et création des listes de data
   getDataLists = () => {
     return new Promise((resolve) => {
       const dataListsElement = document.querySelectorAll('[data-component="datalist"]')
@@ -41,11 +52,6 @@ class Search {
 
       resolve(dataLists)
     })
-  }
-
-  // Déclaration des évènements de dataLists
-  dataListsEvents = () => {
-    this.dataLists.map((dataList) => dataList.element.addEventListener("expand", this.closeExpandedDataLists))
   }
 
   // Déclaration des évènements de tags
@@ -58,11 +64,6 @@ class Search {
         list.addEventListener("deleteTag", this.removeTag)
       })
     })
-  }
-
-  // Fonction permettant de fermer les autres listes quand une est ouverte
-  closeExpandedDataLists = (e) => {
-    this.dataLists.map((dataList) => dataList.element !== e.target && dataList.expanded && dataList.toggleExpand())
   }
 
   // Fonction permettant de créer un tag
