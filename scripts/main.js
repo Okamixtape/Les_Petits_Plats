@@ -1,4 +1,4 @@
-// Importation du controller "Search"
+// Importation du controller "Search", élément principal qui concentre tous les composants et utils JS
 import Search from "./controllers/Search.js"
 
 // Appel du controller "Search"
