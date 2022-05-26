@@ -1,11 +1,8 @@
 // Importation des constructors nécessaires
 
 import DataList from "../components/Datalist.js"
+import RecipesList from "../components/RecipesList.js" // Importation du tableau des données JSON via le constructor "recipesList"
 import Tag from "../components/Tag.js"
-
-// Importation du tableau des données JSON via le constructor "recipesList"
-
-import RecipesList from "../components/RecipesList.js"
 
 // Création du controller "Search"
 class Search {
