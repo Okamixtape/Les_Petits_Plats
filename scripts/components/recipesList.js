@@ -107,11 +107,10 @@ class RecipesList {
 
     this.refreshRecipes()
 
-
     this.query = value
 
     // Apparition de la liste de recettes à partir de trois caractères rentrés
-    if (value.length < 3 && !this.tags.length) return
+    if (value.length < 3 && isEmpty(this.tags)) return
 
     // Recherche par plats 
     // Méthode pour retourner un nouveau tableau avec les éléments du tableau d'origine et qui remplissent les conditions
@@ -150,15 +149,7 @@ class RecipesList {
     this.nodeRecipes = await this.displayRecipes()
 
     const listElements = document.querySelectorAll(".datalist__list > ul > li")
-    listElements.forEach((ul) => ul.classList.remove("hidden"))
-  }
-
-  // Mise à jour du contenu de DataLists
-  updateDatalists = () => {
-    const event = new Event("updatelist")
-    event.updatedRecipes = this.currentRecipes
-
-    this.element.dispatchEvent(event)
+    listElements.forEach((list) => list.classList.remove("hidden"))
   }
 
   // Ajout du tag et mise à jour de la recherche (utilisé dans Search.js)
@@ -173,6 +164,14 @@ class RecipesList {
     this.tags = this.tags.filter((tag) => tag.listElement !== e.target)
 
     this.handleSearch()
+  }
+
+  // Mise à jour du contenu de DataLists
+  updateDatalists = () => {
+    const event = new Event("updatelist")
+    event.updatedRecipes = this.currentRecipes
+
+    this.element.dispatchEvent(event)
   }
 }
 
