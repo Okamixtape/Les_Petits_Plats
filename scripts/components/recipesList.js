@@ -116,9 +116,28 @@ class RecipesList {
 
     // Recherche par plats 
     // Méthode pour retourner un nouveau tableau avec les éléments du tableau d'origine et qui remplissent les conditions
-    this.currentRecipes = this.currentRecipes.filter(
-      (recipe) => recipe.name.toLowerCase().includes(value) || recipe.description.toLowerCase().includes(value) || isPartiallyInArrayObject(recipe.ingredients, value, "ingredient")
-    )
+    // this.currentRecipes = this.currentRecipes.filter(
+    //   (recipe) => recipe.name.toLowerCase().includes(value) || recipe.description.toLowerCase().includes(value) || isPartiallyInArrayObject(recipe.ingredients, value, "ingredient")
+    // )
+
+    let results = []
+
+    // If tout seul : et / Else If : ou bien //
+    for (const currentRecipe of this.currentRecipes) {
+      // Si le nom d'une recette corresponds à la value de la barre de recherche
+      if (currentRecipe.name.toLowerCase().includes(value)) {
+        results.push(currentRecipe)
+      }
+      if (currentRecipe.description.toLowerCase().includes(value)) {
+        results.push(currentRecipe)
+      }
+      for (const ingredient of currentRecipe.ingredients) {
+        if (ingredient.ingredient.toLowerCase().includes(value.toLowerCase()))
+        results.push(currentRecipe)
+      }
+    }
+    
+    this.currentRecipes = results;
 
     // Recherche par tags
     // Méthode pour retourner un nouveau tableau avec les éléments du tableau d'origine et qui remplissent les conditions
@@ -143,6 +162,7 @@ class RecipesList {
     this.updateDatalists()
 
     this.nodeRecipes = await this.displayRecipes()
+    //results = await this.displayRecipes()
   }
 
   // Mise à jour des recettes et de leur affichage
