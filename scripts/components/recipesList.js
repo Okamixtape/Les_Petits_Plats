@@ -112,6 +112,8 @@ class RecipesList {
     // Apparition de la liste de recettes à partir de trois caractères rentrés
     if (value.length < 3 && isEmpty(this.tags)) return
 
+    // Intégrer la fonction native de recherche (V2)
+
     // Recherche par plats 
     // Méthode pour retourner un nouveau tableau avec les éléments du tableau d'origine et qui remplissent les conditions
     this.currentRecipes = this.currentRecipes.filter(
