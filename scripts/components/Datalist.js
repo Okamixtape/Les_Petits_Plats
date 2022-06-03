@@ -5,7 +5,7 @@ import { isPartiallyInArray } from "../utils/validationStandardization.js"
 
 // Importation du tableau des données JSON
 
-import recipes from "../../data/recipes.js"
+import jsonRecipes from "../../data/recipes.js"
 
 // Création du component "DataList" qui gère l'affichage des boutons de filtre 
 // des ingrédients, appareils et ustensiles
@@ -35,6 +35,8 @@ class DataList {
     const input = this.element.querySelector("input")
     const expand = this.element.querySelector('[data-action="expand"]')
     const listElements = this.element.querySelectorAll("li")
+    const list = document.querySelector('[data-component="list"]')
+    console.log(list);
 
     this.element.addEventListener("search", this.toggleSearch)
 
@@ -44,12 +46,14 @@ class DataList {
 
     listElements.forEach((li) => li.addEventListener("click", this.selectListElement))
 
+    list.addEventListener("updatelist", this.updateData)
+
     document.addEventListener("click", this.handleClick)
   }
   
   // Fonction permettant de récupérer les données JSON
   // et de les classer par ordre alphabétique et avec une majuscule
-  getData = () => {
+  getData = (recipes = jsonRecipes) => {
     return new Promise((resolve) => {
       let data = []
 
@@ -68,6 +72,19 @@ class DataList {
       })
 
       resolve(sortAlphabetically(data))
+    })
+  }
+
+  updateData = async (e) => {
+    const { updatedRecipes } = e
+    const data = await this.getData(updatedRecipes)
+
+    this.list.forEach((list) => {
+      list.classList.add("hidden")
+
+      data.forEach((data) => {
+        if (data === list.textContent) list.classList.remove("hidden")
+      })
     })
   }
 
