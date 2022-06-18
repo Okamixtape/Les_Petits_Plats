@@ -136,8 +136,28 @@ class RecipesList {
         results.push(currentRecipe)
       }
     }
-    
-    this.currentRecipes = results;
+
+    this.currentRecipes = results
+
+    // console.log(results) : des objets sont en double
+
+    // Retrait des objets en double avec l'id de l'objet
+    const removeDuplicates = results.filter(currentRecipe => {
+      const isDuplicate = results.includes(currentRecipe.id);
+
+      if (!isDuplicate) {
+        results.push(currentRecipe.id);
+
+        return true;
+      }
+
+      return false;
+    });
+
+    // console.log(removeDuplicates);
+
+    // Permets de récupérer une seule instance d'un objet
+    this.currentRecipes = removeDuplicates
 
     // Recherche par tags
     // Méthode pour retourner un nouveau tableau avec les éléments du tableau d'origine et qui remplissent les conditions
