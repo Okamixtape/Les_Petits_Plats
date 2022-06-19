@@ -36,7 +36,7 @@ class DataList {
     const expand = this.element.querySelector('[data-action="expand"]')
     const listElements = this.element.querySelectorAll("li")
     const list = document.querySelector('[data-component="list"]')
-    console.log(list);
+    // console.log(list);
 
     this.element.addEventListener("search", this.toggleSearch)
 
