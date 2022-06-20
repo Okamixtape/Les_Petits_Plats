@@ -15,6 +15,7 @@ class DataList {
     this.type = element.getAttribute("data-type")
 
     this.list = []
+    this.recipes = jsonRecipes
 
     this.opened = false
     this.expanded = false
@@ -25,7 +26,8 @@ class DataList {
   // Initialisation asynchrone des fonctions de récupération et d'affichage des données JSON
   init = async () => {
     this.data = await this.getData()
-    this.list = await this.displayData()
+    this.list = await this.filterData()
+    this.displayData()
 
     this.dataListBehaviour()
   }
@@ -38,7 +40,7 @@ class DataList {
     const list = document.querySelector('[data-component="list"]')
     // console.log(list);
 
-    this.element.addEventListener("search", this.toggleSearch)
+    // // this.element.addEventListener("search", this.toggleSearch)
 
     input.addEventListener("input", this.searchData)
 
@@ -77,27 +79,52 @@ class DataList {
 
   updateData = async (e) => {
     const { updatedRecipes } = e
-    const data = await this.getData(updatedRecipes)
 
-    this.list.forEach((list) => {
-      list.classList.add("hidden")
+    this.recipes = updatedRecipes
+    this.list = await this.filterData()
+    this.displayData()
+  }
 
-      data.forEach((data) => {
-        if (data === list.textContent) list.classList.remove("hidden")
-      })
+  filterData = () => {
+    const tags = []
+    this.data.forEach((tag) => {
+      const haveTag = this.recipes.some((recipe) => {
+        const tagLowerCase = tag.toLowerCase()
+        if (
+          recipe.name.toLowerCase().includes(tagLowerCase) ||
+          recipe.description.toLowerCase().includes(tagLowerCase) ||
+          recipe.appliance.toLowerCase().includes(tagLowerCase) ||
+          recipe.ustensils.includes(tagLowerCase)
+        ) {
+          return true
+        } else {
+          for (const ingredient of recipe.ingredients) {
+            if (ingredient.ingredient.toLowerCase().includes(tagLowerCase))
+            {
+              return true
+            }
+          }
+        }
+        return false
+      }) 
+
+      if (haveTag) {
+        tags.push(tag)
+      }
     })
+
+    return tags
   }
 
   // Fonction permettant d'afficher les données JSON dans le DOM
   // Série de item <li></li> dans un <ul></ul>
   displayData = () => {
-    return new Promise((resolve) => {
-      const wrapper = this.element.querySelector("ul")
+    const wrapper = this.element.querySelector("ul")
 
-      this.data.map((item) => (wrapper.innerHTML += `<li>${item}</li>`))
-
-      resolve(wrapper.querySelectorAll("li"))
-    })
+    wrapper.innerHTML = ''
+    if (Array.isArray(this.list)) {
+      this.list.forEach((tag) => (wrapper.innerHTML += `<li>${tag}</li>`))
+    }
   }
 
   // Fonction permettant d'afficher les données de recherche (à partir de 3 caractères entrés)
@@ -110,11 +137,20 @@ class DataList {
     // Répercution du "remove" de la classe "hidden" pour tous les li déjà masqués
     hiddenElements.forEach((element) => element.classList.remove("hidden"))
 
+    this.list = this.filterData()
+
     // Si la valeur entrée est inférieur à trois caractères la liste ne se déplie pas
-    if (value.length < 3) return this.toggleOpen(false)
+    if (value.length < 3) {
+      this.displayData()
+
+      return this.toggleOpen(false) 
+    }
 
     // Vérification que chaque élément du tableau ne comporte par la valeur recherché, dans ce cas ajout de la classe "hidden"
-    this.list.forEach((element) => !element.textContent.toLowerCase().includes(value) && element.classList.add("hidden"))
+    this.list = this.list.filter((tag) => {
+      return tag.toLowerCase().includes(value)
+    })
+    this.displayData()
 
     this.element.dispatchEvent(new Event("search"))
   }
@@ -135,12 +171,12 @@ class DataList {
     this.opened = !this.opened
   }
 
-  // Fonction permettant de cacher des li de la liste lors de la recherche
-  toggleSearch = () => {
-    const hiddenElements = this.element.querySelectorAll("li.hidden")
+  // // Fonction permettant de cacher des li de la liste lors de la recherche
+  // toggleSearch = () => {
+  //   const hiddenElements = this.element.querySelectorAll("li.hidden")
 
-    hiddenElements.length < this.list.length && hiddenElements.length != 0 ? this.toggleOpen() : this.toggleOpen(false)
-  }
+  //   hiddenElements.length < this.list.length && hiddenElements.length != 0 ? this.toggleOpen() : this.toggleOpen(false)
+  // }
 
   // Fonction en lien à la gestion du click sur les éléments de liste (en fonction des attributs classe opened/expanded)
   handleClick = (e) => {
